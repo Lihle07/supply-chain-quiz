@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Supply Chain Score Quiz | Multilog</title>
   <style>
     body { font-family: 'Segoe UI', sans-serif; background: #fef6f6; padding: 2rem; }
@@ -19,93 +19,104 @@
     .result { margin-top: 2rem; padding: 1rem; background: #fff4cc; border-left: 4px solid #ffcc05; border-radius: 8px; }
     a { color: #ed1c24; text-decoration: none; font-weight: bold; }
     a:hover { text-decoration: underline; }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
   <div class="quiz-container">
     <div class="logo">
-      <img src="https://multilog.com/wp-content/uploads/2024/06/logoo-500.png" alt="Multilog Logo">
+      <img src="https://multilog.com/wp-content/uploads/2024/06/logoo-500.png" alt="Multilog Logo" />
     </div>
     <h2>Multilog: Supply Chain Health Check</h2>
-    <form id="quizForm">
+
+    <form id="quizForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+      <!-- User Info Fields -->
+      <div class="question">
+        <h3>Name</h3>
+        <input type="text" name="name" required />
+      </div>
+      <div class="question">
+        <h3>Surname</h3>
+        <input type="text" name="surname" required />
+      </div>
+      <div class="question">
+        <h3>Company</h3>
+        <input type="text" name="company" required />
+      </div>
+      <div class="question">
+        <h3>Email</h3>
+        <input type="email" name="email" required />
+      </div>
+
+      <!-- Quiz Questions -->
       <div class="question">
         <h3>1. How would you rate your logistics efficiency?</h3>
-        <label class="option"><input type="radio" name="q1" value="5"> Excellent</label>
+        <label class="option"><input type="radio" name="q1" value="5" required> Excellent</label>
         <label class="option"><input type="radio" name="q1" value="4"> Good</label>
         <label class="option"><input type="radio" name="q1" value="3"> Average</label>
         <label class="option"><input type="radio" name="q1" value="2"> Poor</label>
         <label class="option"><input type="radio" name="q1" value="1"> Not Sure</label>
       </div>
+
       <div class="question">
         <h3>2. Which challenges do you face most often?</h3>
-        <label class="option"><input type="radio" name="q2" value="5"> None</label>
+        <label class="option"><input type="radio" name="q2" value="5" required> None</label>
         <label class="option"><input type="radio" name="q2" value="4"> High costs</label>
         <label class="option"><input type="radio" name="q2" value="3"> Customs delays</label>
         <label class="option"><input type="radio" name="q2" value="2"> Inconsistent delivery</label>
         <label class="option"><input type="radio" name="q2" value="1"> Visibility issues</label>
       </div>
+
       <div class="question">
         <h3>3. Do you currently use a freight forwarding partner?</h3>
-        <label class="option"><input type="radio" name="q3" value="5"> Strategic partner</label>
+        <label class="option"><input type="radio" name="q3" value="5" required> Strategic partner</label>
         <label class="option"><input type="radio" name="q3" value="4"> Occasionally outsource</label>
         <label class="option"><input type="radio" name="q3" value="3"> In-house team</label>
         <label class="option"><input type="radio" name="q3" value="2"> Not sure</label>
         <label class="option"><input type="radio" name="q3" value="1"> No</label>
       </div>
+
       <div class="question">
         <h3>4. How digitized is your supply chain?</h3>
-        <label class="option"><input type="radio" name="q4" value="5"> Fully automated</label>
+        <label class="option"><input type="radio" name="q4" value="5" required> Fully automated</label>
         <label class="option"><input type="radio" name="q4" value="4"> Mostly digital</label>
         <label class="option"><input type="radio" name="q4" value="3"> Some digital tools</label>
         <label class="option"><input type="radio" name="q4" value="2"> Minimal digitization</label>
         <label class="option"><input type="radio" name="q4" value="1"> All manual</label>
       </div>
+
       <div class="question">
         <h3>5. What is your top logistics goal for the next 6 months?</h3>
-        <label class="option"><input type="radio" name="q5" value="5"> Process automation</label>
+        <label class="option"><input type="radio" name="q5" value="5" required> Process automation</label>
         <label class="option"><input type="radio" name="q5" value="4"> Cost control</label>
         <label class="option"><input type="radio" name="q5" value="3"> Tracking visibility</label>
         <label class="option"><input type="radio" name="q5" value="2"> Vendor reliability</label>
         <label class="option"><input type="radio" name="q5" value="1"> No set goal</label>
       </div>
+
       <div class="question">
         <h3>6. How often do you review and optimize freight routes or costs?</h3>
-        <label class="option"><input type="radio" name="q6" value="5"> Monthly</label>
+        <label class="option"><input type="radio" name="q6" value="5" required> Monthly</label>
         <label class="option"><input type="radio" name="q6" value="4"> Quarterly</label>
         <label class="option"><input type="radio" name="q6" value="3"> Annually</label>
         <label class="option"><input type="radio" name="q6" value="2"> Rarely</label>
         <label class="option"><input type="radio" name="q6" value="1"> Never</label>
       </div>
-      <button type="button" class="submit-btn" onclick="calculateScore()">Get My Score</button>
+
+      <button type="submit" class="submit-btn">Submit & Email Report to Multilog</button>
+      <p style="font-size: 0.9em; color: #666; margin-top: 0.5rem;">
+        * Your supply chain score and answers will be emailed to our sales team at <strong>sales@multilog.com</strong>
+      </p>
     </form>
+
     <div id="result" class="result" style="display: none;"></div>
   </div>
-  <script>
-    function calculateScore() {
-      const form = document.getElementById('quizForm');
-      let score = 0;
-      for (let i = 1; i <= 6; i++) {
-        const val = form[`q${i}`].value;
-        if (!val) { alert("Please answer all questions."); return; }
-        score += parseInt(val);
-      }
-      let grade, message;
-      if (score >= 26) {
-        grade = "A – Logistics Leader";
-        message = "Excellent! Your supply chain is performing at a high level.";
-      } else if (score >= 20) {
-        grade = "B – Solid Performer";
-        message = "You’re doing well, but there’s room for optimization.";
-      } else if (score >= 13) {
-        grade = "C – At Risk";
-        message = "Your supply chain has efficiency gaps that need attention.";
-      } else {
-        grade = "D – Needs Attention";
-        message = "Consider a supply chain audit. Let’s talk!";
-      }
-      document.getElementById('result').style.display = 'block';
-      document.getElementById('result').innerHTML = `<strong>Your Score: ${score}/30</strong><br><strong>${grade}</strong><p>${message}</p><a href='https://calendly.com' target='_blank'>Book a Free Strategy Call</a>`;
-    }
-  </script>
 </body>
 </html>
