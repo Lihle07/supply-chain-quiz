@@ -149,8 +149,6 @@
     for (const pair of formData.entries()) {
       data.append(pair[0], pair[1]);
     }
-
-    // Replace this with your actual Google Apps Script Web App URL
     fetch("https://script.google.com/macros/s/AKfycbwhE1N0WT-cZfeZNsyMXv6j2-GOKIoEvxdL7J-GD0gxDjQMxfD-RVM91ciym6Bnq9Lt/exec", {
       method: "POST",
       body: data
