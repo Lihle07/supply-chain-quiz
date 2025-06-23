@@ -123,48 +123,48 @@
   </div>
 
   <script>
-    document.getElementById('quizForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+  document.getElementById('quizForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-      const form = e.target;
-      let score = 0;
+    const form = e.target;
+    let score = 0;
 
-      for (let i = 1; i <= 6; i++) {
-        const radios = form[`q${i}`];
-        for (const radio of radios) {
-          if (radio.checked) {
-            score += parseInt(radio.value);
-            break;
-          }
+    for (let i = 1; i <= 6; i++) {
+      const radios = form.querySelectorAll(`input[name="q${i}"]`);
+      radios.forEach(radio => {
+        if (radio.checked) {
+          score += parseInt(radio.value);
         }
-      }
-
-      document.getElementById('scoreInput').value = score;
-
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = `<strong>Your Supply Chain Score:</strong> ${score} / 30`;
-      resultDiv.style.display = 'block';
-
-      const formData = new FormData(form);
-
-      fetch('https://formspree.io/f/myzwrgqv', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          resultDiv.innerHTML += `<p style="margin-top: 1rem;">Your responses have been sent successfully to Multilog.</p>`;
-        } else {
-          resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">There was an error submitting your form. Please try again.</p>`;
-        }
-      })
-      .catch(error => {
-        resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">Submission failed. Please check your connection.</p>`;
       });
+    }
+
+    document.getElementById('scoreInput').value = score;
+
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `<strong>Your Supply Chain Score:</strong> ${score} / 30`;
+    resultDiv.style.display = 'block';
+
+    const formData = new FormData(form);
+    const data = new URLSearchParams();
+    for (const pair of formData.entries()) {
+      data.append(pair[0], pair[1]);
+    }
+
+    // Replace this with your actual Google Apps Script Web App URL
+    fetch("https://script.google.com/macros/s/AKfycbwhE1N0WT-cZfeZNsyMXv6j2-GOKIoEvxdL7J-GD0gxDjQMxfD-RVM91ciym6Bnq9Lt/exec", {
+      method: "POST",
+      body: data
+    })
+    .then(response => {
+      if (response.ok) {
+        resultDiv.innerHTML += `<p style="margin-top: 1rem;">Your responses have been recorded successfully.</p>`;
+        form.reset();
+      } else {
+        resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">There was an error submitting your responses.</p>`;
+      }
+    })
+    .catch(error => {
+      resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">Submission failed. Please check your connection.</p>`;
     });
-  </script>
-</body>
-</html>
+  });
+</script>
