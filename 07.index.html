@@ -113,9 +113,9 @@
       <!-- Hidden Score Field -->
       <input type="hidden" name="score" id="scoreInput" />
 
-      <button type="submit" class="submit-btn">Submit & Email Report to Multilog</button>
+      <button type="submit" class="submit-btn">Submit</button>
       <p style="font-size: 0.9em; color: #666; margin-top: 0.5rem;">
-        * Your supply chain score and answers will be emailed to our sales team at <strong>Multilog</strong>
+        * Your supply chain score and answers will be emailed to <strong>Multilog</strong>
       </p>
     </form>
 
@@ -123,46 +123,64 @@
   </div>
 
   <script>
-  document.getElementById('quizForm').addEventListener('submit', function(e) {
+document.getElementById('quizForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const form = e.target;
     let score = 0;
 
+    // Calculate the score based on user input
     for (let i = 1; i <= 6; i++) {
-      const radios = form.querySelectorAll(`input[name="q${i}"]`);
-      radios.forEach(radio => {
-        if (radio.checked) {
-          score += parseInt(radio.value);
-        }
-      });
+        const radios = form.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(radio => {
+            if (radio.checked) {
+                score += parseInt(radio.value);
+            }
+        });
     }
 
     document.getElementById('scoreInput').value = score;
 
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `<strong>Your Supply Chain Score:</strong> ${score} / 30`;
-    resultDiv.style.display = 'block';
+    // Grading logic
+    let grade, message;
+    if (score >= 26) {
+        grade = "A – Logistics Leader";
+        message = "Excellent! Your supply chain is performing at a high level.";
+    } else if (score >= 20) {
+        grade = "B – Solid Performer";
+        message = "You’re doing well, but there’s room for optimization.";
+    } else if (score >= 13) {
+        grade = "C – At Risk";
+        message = "Your supply chain has efficiency gaps that need attention.";
+    } else {
+        grade = "D – Needs Attention";
+        message = "Consider a supply chain audit. Let’s talk!";
+    }
 
+    const resultDiv = document.getElementById('result');
+    resultDiv.classList.remove('hidden'); // Ensure the result box is visible
+    resultDiv.innerHTML = `<strong>Your Score: ${score}/30</strong><br><strong>${grade}</strong><p>${message}</p><a href='https://calendly.com' target='_blank'>Book a Free Strategy Call</a>`;
+
+    // Form submission to Google Sheets
     const formData = new FormData(form);
     const data = new URLSearchParams();
     for (const pair of formData.entries()) {
-      data.append(pair[0], pair[1]);
+        data.append(pair[0], pair[1]);
     }
     fetch("https://script.google.com/macros/s/AKfycbx8WQKJJNFVlMr775Zn2Ae9Gf4mbPev6SwSUtqJ9gcvMN95YhnzjP2mkE_pan6vcAhk/exec", {
-      method: "POST",
-      body: data
+        method: "POST",
+        body: data
     })
     .then(response => {
-      if (response.ok) {
-        resultDiv.innerHTML += `<p style="margin-top: 1rem;">Your responses have been recorded successfully.</p>`;
-        form.reset();
-      } else {
-        resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">There was an error submitting your responses.</p>`;
-      }
+        if (response.ok) {
+            resultDiv.innerHTML += `<p style="margin-top: 1rem;">Your responses have been recorded successfully.</p>`;
+            form.reset();
+        } else {
+            resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">There was an error submitting your responses.</p>`;
+        }
     })
     .catch(error => {
-      resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">Submission failed. Please check your connection.</p>`;
+        resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">Submission failed. Please check your connection.</p>`;
     });
-  });
+});
 </script>
