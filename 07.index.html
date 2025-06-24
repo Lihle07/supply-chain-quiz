@@ -182,7 +182,8 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
   }
 
   resultDiv.style.display = 'block';
-  resultDiv.innerHTML = `<strong>Your Score: ${score}/30</strong><br><strong>${grade}</strong><p>${message}</p><a href='https://calendly.com' target='_blank'>Book a Free Strategy Call</a>`;
+  resultDiv.innerHTML = `<strong>Your Score: ${score}/30</strong><br><strong>${grade}</strong><p>${message}</p><p><strong>Book a strategy session with us: sales@multilog.com</strong></p>`;
+
 
   // Submit to Google Sheets
   const formData = new FormData(form);
