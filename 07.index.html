@@ -84,7 +84,7 @@
       </div>
 
       <div class="question">
-        <h3>4. How digitized is your supply chain?</h3>
+        <h3>4. How digitised is your supply chain?</h3>
         <label class="option"><input type="radio" name="q4" value="5" required> Fully automated</label>
         <label class="option"><input type="radio" name="q4" value="4"> Mostly digital</label>
         <label class="option"><input type="radio" name="q4" value="3"> Some digital tools</label>
@@ -102,7 +102,7 @@
       </div>
 
       <div class="question">
-        <h3>6. How often do you review and optimize freight routes or costs?</h3>
+        <h3>6. How often do you review and optimise freight routes or costs?</h3>
         <label class="option"><input type="radio" name="q6" value="5" required> Monthly</label>
         <label class="option"><input type="radio" name="q6" value="4"> Quarterly</label>
         <label class="option"><input type="radio" name="q6" value="3"> Annually</label>
@@ -172,7 +172,7 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
     message = "Excellent! Your supply chain is performing at a high level.";
   } else if (score >= 20) {
     grade = "B – Solid Performer";
-    message = "You’re doing well, but there’s room for optimization.";
+    message = "You’re doing well, but there’s room for optimisation.";
   } else if (score >= 13) {
     grade = "C – At Risk";
     message = "Your supply chain has efficiency gaps that need attention.";
@@ -184,90 +184,6 @@ document.getElementById('quizForm').addEventListener('submit', function(e) {
   resultDiv.style.display = 'block';
   resultDiv.innerHTML = `<strong>Your Score: ${score}/30</strong><br><strong>${grade}</strong><p>${message}</p><p><strong>Book a strategy session with us: sales@multilog.com</strong></p>`;
 
-
-  // Submit to Google Sheets
-  const formData = new FormData(form);
-  const data = new URLSearchParams(formData);
-
-  fetch("https://script.google.com/macros/s/AKfycbx8WQKJJNFVlMr775Zn2Ae9Gf4mbPev6SwSUtqJ9gcvMN95YhnzjP2mkE_pan6vcAhk/exec", {
-    method: "POST",
-    body: data
-  })
-  .then(response => {
-    if (response.ok) {
-      resultDiv.innerHTML += `<p style="margin-top: 1rem;">Your responses have been recorded successfully.</p>`;
-      // Optional: Uncomment to reset after a delay
-      // setTimeout(() => form.reset(), 3000);
-    } else {
-      resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">There was an error submitting your responses.</p>`;
-    }
-  })
-  .catch(error => {
-    resultDiv.innerHTML += `<p style="margin-top: 1rem; color:red;">Submission failed. Please check your connection.</p>`;
-  });
-});
-</script>
-<script>
-document.getElementById('quizForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const resultDiv = document.getElementById('result');
-  resultDiv.style.display = 'none';
-  resultDiv.innerHTML = '';
-
-  let score = 0;
-  let allAnswered = true;
-
-  // Validate all quiz questions (q1–q6)
-  for (let i = 1; i <= 6; i++) {
-    const selected = form.querySelector(`input[name="q${i}"]:checked`);
-    if (!selected) {
-      allAnswered = false;
-      form.querySelector(`input[name="q${i}"]`).closest('.question').style.border = '1px solid red';
-    } else {
-      form.querySelector(`input[name="q${i}"]`).closest('.question').style.border = 'none';
-      score += parseInt(selected.value);
-    }
-  }
-
-  // Check required text/email fields manually too
-  const requiredFields = ['name', 'surname', 'company', 'email'];
-  requiredFields.forEach(fieldName => {
-    const field = form.elements[fieldName];
-    if (!field.value.trim()) {
-      field.style.border = '1px solid red';
-      allAnswered = false;
-    } else {
-      field.style.border = '1px solid #ccc';
-    }
-  });
-
-  if (!allAnswered) {
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = `<p style="color:red;">Please complete all required fields and questions before submitting.</p>`;
-    return;
-  }
-
-  // Proceed with showing result
-  document.getElementById('scoreInput').value = score;
-
-  let grade, message;
-  if (score >= 26) {
-    grade = "A – Logistics Leader";
-    message = "Excellent! Your supply chain is performing at a high level.";
-  } else if (score >= 20) {
-    grade = "B – Solid Performer";
-    message = "You’re doing well, but there’s room for optimization.";
-  } else if (score >= 13) {
-    grade = "C – At Risk";
-    message = "Your supply chain has efficiency gaps that need attention.";
-  } else {
-    grade = "D – Needs Attention";
-    message = "Consider a supply chain audit. Let’s talk!";
-  }
-
-  resultDiv.style.display = 'block';
-resultDiv.innerHTML = `<strong>Your Score: ${score}/30</strong><br><strong>${grade}</strong><p>${message}</p><p><strong>Book a strategy session with us: sales@multilog.com</strong></p>`;
 
   // Submit to Google Sheets
   const formData = new FormData(form);
